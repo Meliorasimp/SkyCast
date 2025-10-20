@@ -1,0 +1,104 @@
+@import "tailwindcss";
+@import "@fontsource/inter/index.css";
+
+html,
+body {
+  @apply bg-gray-100 text-gray-900;
+  margin: 0;
+  font-family: "Inter", Times, serif;
+  padding: 0;
+}
+
+:root {
+  --primary-background-color: #171732;
+  --landing-page-navbar-text-color: #6dd5fa;
+  --landing-page-text-color: #6dd5fa;
+}
+
+.landing-page-gradient-bg {
+  background: linear-gradient(
+    to bottom,
+    #0f0f23 0%,
+    #1a1a3a 15%,
+    #252547 30%,
+    #2d2d5a 45%,
+    #3a3a6b 60%,
+    #441f81 75%,
+    #5a2c91 90%,
+    #6d3ba1 100%
+  );
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes shooting-star {
+  0% {
+    transform: rotate(-15deg) translateX(-100%) translateY(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  20% {
+    transform: rotate(-15deg) translateX(100vw) translateY(-50px);
+    opacity: 1;
+  }
+  21% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
+.landing-page-text-gradient-heading {
+  background: linear-gradient(to right, #6dd5fa, #7b2ff7);
+  font-weight: 900;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+}
+
+.landing-page-navbar-text {
+  color: var(--landing-page-navbar-text-color);
+}
+
+.button-primary {
+  background: linear-gradient(to right, #6d89fa, #7b2ff7);
+  color: var(--landing-page-text-color);
+}
+
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--landing-page-text-color);
+}
+
+.glass-morphism-animated {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: var(--landing-page-text-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-morphism-animated::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  background: linear-gradient(45deg, #6dd5fa, #7b2ff7, #6dd5fa, #7b2ff7);
+  border-radius: inherit;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  animation: two-color-border 3s linear infinite;
+}
