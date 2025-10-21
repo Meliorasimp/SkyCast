@@ -56,7 +56,7 @@ const Landingpage = () => {
               className="w-2/7 h-1/2 rounded-2xl glass-morphism-animated flex flex-col gap-y-4 justify-center items-center hover:scale-105 transition-transform duration-300 relative z-20"
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true, amount: 0.5 }}
             >
               <div className="flex justify-between flex-col items-center gap-y-4">
