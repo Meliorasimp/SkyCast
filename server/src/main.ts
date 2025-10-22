@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import forecastRouter from "./routes/forecastRoute.js";
+import airqualityRouter from "./routes/airqualityRoute.js";
 import cors from "cors";
 
 dotenv.config();
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: "http://localhost:5173" }));
 
 app.use("/api", forecastRouter);
+app.use("/api", airqualityRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

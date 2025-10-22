@@ -3,6 +3,7 @@ import contactReducer from "./slices/contactSlice";
 import { Location } from "./slices/geoLocationSlice";
 import { Forecast } from "./slices/forecastSlice";
 import { fivedayForecast } from "./slices/fivedayForecastSlice";
+import { airQualityReducer } from "./slices/airQualitySlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     geoLocation: Location,
     forecast: Forecast,
     fivedayForecast: fivedayForecast,
+    airQuality: airQualityReducer,
   },
 });
 
