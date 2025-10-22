@@ -81,7 +81,6 @@ export const fetchForecast = createAsyncThunk(
         lat,
         lon,
       });
-      console.log("Forecast data fetched:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching forecast:", error);

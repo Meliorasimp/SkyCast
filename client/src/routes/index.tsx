@@ -2,6 +2,7 @@ import { type RouteObject } from "react-router-dom";
 import Landingpage from "../pages/Landingpage";
 import Contact from "../pages/Contact";
 import Dashboard from "../pages/Dashboard";
+import Airquality from "../pages/Airquality";
 
 const Router: RouteObject[] = [
   {
@@ -15,6 +16,10 @@ const Router: RouteObject[] = [
   {
     path: "/dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "/airquality",
+    element: <Airquality />,
   },
 ];
 
