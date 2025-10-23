@@ -3,6 +3,7 @@ import Landingpage from "../pages/Landingpage";
 import Contact from "../pages/Contact";
 import Dashboard from "../pages/Dashboard";
 import Airquality from "../pages/Airquality";
+import Astronomy from "../pages/Astronomy";
 
 const Router: RouteObject[] = [
   {
@@ -20,6 +21,10 @@ const Router: RouteObject[] = [
   {
     path: "/airquality",
     element: <Airquality />,
+  },
+  {
+    path: "/astronomy",
+    element: <Astronomy />,
   },
 ];
 
