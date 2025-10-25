@@ -10,7 +10,6 @@ const Astronomy = () => {
   const forecastData = useSelector((state: RootState) => state.forecast);
   const dispatch = useDispatch<AppDispatch>();
   const moonPhaseData = useSelector((state: RootState) => state.moonPhase);
-  console.log("Moon Phase Data:", moonPhaseData);
 
   useEffect(() => {
     if (forecastData.coord) {
