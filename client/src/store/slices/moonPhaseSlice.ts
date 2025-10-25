@@ -186,4 +186,4 @@ export const fetchMoonPhaseData = createAsyncThunk(
   }
 );
 
-export const MoonPhaseReducer = moonPhaseSlice.reducer;
+export const moonPhaseReducer = moonPhaseSlice.reducer;

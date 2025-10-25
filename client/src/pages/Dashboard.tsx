@@ -18,6 +18,7 @@ import Cloudy from "../assets/cloudy.png";
 import { convertToHourandMinute } from "../utils/index";
 import { fetchForecast } from "../store/slices/forecastSlice";
 import { fetchFiveDayForecast } from "../store/slices/fivedayForecastSlice";
+import { motion } from "framer-motion";
 
 const Dashboard = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -89,7 +90,12 @@ const Dashboard = () => {
           !forecastData.error &&
           !fiveDayForecastData.error && (
             <>
-              <section className="w-2/3">
+              <motion.section
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                className="w-2/3"
+              >
                 <div className=" flex flex-col gap-y-4 px-10">
                   <h1 className="text-5xl font-bold">
                     {forecastData.name}, {forecastData.sys.country}
@@ -184,8 +190,13 @@ const Dashboard = () => {
                     })}
                   </div>
                 </div>
-              </section>
-              <section className="w-1/3 flex flex-col gap-y-6">
+              </motion.section>
+              <motion.section
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                className="w-1/3 flex flex-col gap-y-6"
+              >
                 <div className="dashboard-card rounded-2xl p-6">
                   <h2 className="text-2xl font-semibold flex items-center gap-3 mb-4">
                     <img
@@ -256,7 +267,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </div>
-              </section>
+              </motion.section>
             </>
           )}
       </div>

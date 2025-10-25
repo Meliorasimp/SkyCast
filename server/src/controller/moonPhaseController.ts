@@ -24,9 +24,6 @@ export const fetchMoonPhaseData = async (req: Request, res: Response) => {
       }
     );
 
-    console.log("Moon Phase API success! Status:", response.status);
-    console.log("Full Axios response keys:", Object.keys(response));
-    console.log("Moon phase data:", response.data);
     res.status(200).json(response.data);
   } catch (error: any) {
     console.error("Error fetching moon phase data:", {

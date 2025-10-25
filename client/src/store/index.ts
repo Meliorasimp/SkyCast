@@ -4,6 +4,7 @@ import { Location } from "./slices/geoLocationSlice";
 import { Forecast } from "./slices/forecastSlice";
 import { fivedayForecast } from "./slices/fivedayForecastSlice";
 import { airQualityReducer } from "./slices/airQualitySlice";
+import { moonPhaseReducer } from "./slices/moonPhaseSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     forecast: Forecast,
     fivedayForecast: fivedayForecast,
     airQuality: airQualityReducer,
+    moonPhase: moonPhaseReducer,
   },
 });
 

@@ -4,6 +4,7 @@ import Contact from "../pages/Contact";
 import Dashboard from "../pages/Dashboard";
 import Airquality from "../pages/Airquality";
 import Astronomy from "../pages/Astronomy";
+import Marine from "../pages/Marine";
 
 const Router: RouteObject[] = [
   {
@@ -25,6 +26,10 @@ const Router: RouteObject[] = [
   {
     path: "/astronomy",
     element: <Astronomy />,
+  },
+  {
+    path: "/marineweather",
+    element: <Marine />,
   },
 ];
 

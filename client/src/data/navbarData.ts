@@ -12,11 +12,11 @@ export const navbarData = [
     destination: "/astronomy",
   },
   {
-    name: "🗺️Maps",
-    destination: "/maps",
-  },
-  {
     name: "🌊Marine",
     destination: "/marineweather",
+  },
+  {
+    name: "🗺️Explore",
+    destination: "/explore",
   },
 ];
