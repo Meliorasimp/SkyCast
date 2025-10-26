@@ -28,7 +28,7 @@ const Navbar = () => {
           </Link>
         ))}
       </div>
-      <div className="flex justify-self-end text-sm sm:text-base md:text-xl transition-all duration-300 landing-page-navbar-text px-3 py-2 rounded-lg hover:bg-white/10 hover:scale-105">
+      <div className="flex justify-self-end cursor-pointer text-sm sm:text-base md:text-xl transition-all duration-300 landing-page-navbar-text px-3 py-2 rounded-lg hover:bg-white/10 hover:scale-105">
         ⚙️ Settings
       </div>
     </div>

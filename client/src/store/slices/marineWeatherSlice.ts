@@ -162,7 +162,7 @@ export const fetchMarineWeatherData = createAsyncThunk(
       );
       return response.data as MarineWeather;
     } catch (error) {
-      console.error("Error fetching marine weather data:", error);
+      console.error("Frontend: Error fetching marine weather data:", error);
       throw new Error("Failed to fetch marine weather data");
     }
   }

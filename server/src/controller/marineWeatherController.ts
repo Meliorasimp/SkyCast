@@ -7,10 +7,9 @@ export const fetchMarineWeatherDataAPI = async (
   res: Response
 ) => {
   const { lat, lon } = req.body;
-
   try {
     const response = await axios.get(
-      `http://api.weatherapi.com/v1/marine.json?key=${weatherApiKey}&q=${lat},${lon}&days=1`
+      `http://api.weatherapi.com/v1/marine.json?key=${weatherApiKey}&q=${lat},${lon}&days=5`
     );
     res.json(response.data);
   } catch (error) {
