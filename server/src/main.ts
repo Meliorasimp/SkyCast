@@ -4,6 +4,7 @@ import forecastRouter from "./routes/forecastRoute.js";
 import airqualityRouter from "./routes/airqualityRoute.js";
 import moonPhaseRouter from "./routes/moonPhaseRoute.js";
 import marineWeatherRouter from "./routes/marineWeatherRoute.js";
+import exploreRouter from "./routes/exploreRoute.js";
 import cors from "cors";
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.use("/api", forecastRouter);
 app.use("/api", airqualityRouter);
 app.use("/api", moonPhaseRouter);
 app.use("/api", marineWeatherRouter);
+app.use("/api", exploreRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

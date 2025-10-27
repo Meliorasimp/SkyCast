@@ -1,119 +1,148 @@
 import Navbar from "../components/Navbar";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useSelector } from "react-redux";
+import type { RootState } from "../store";
+import { useDispatch } from "react-redux";
+import { setSelectedCity } from "../store/slices/exploreSlice";
+import { type AppDispatch } from "../store";
+import { fetchCityData } from "../store/slices/exploreSlice";
+import { useEffect, useRef } from "react";
 
 const Explore = () => {
-  const [selectedCity, setSelectedCity] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const selectedCity = useSelector(
+    (state: RootState) => state.explore.selectedCity
+  );
+  const isLoading = useSelector((state: RootState) => state.explore.loading);
+  console.log("Selected City from Redux:", selectedCity);
+  const cityData = useSelector((state: RootState) => state.exploreData);
+  console.log("City Data from Redux:", cityData);
+
+  const weatherSectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (
+      !cityData.loading &&
+      !cityData.error &&
+      cityData.name &&
+      weatherSectionRef.current
+    ) {
+      const scrollTimer = setTimeout(() => {
+        weatherSectionRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 300);
+
+      return () => clearTimeout(scrollTimer);
+    }
+  }, [cityData.loading, cityData.error, cityData.name]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    dispatch(fetchCityData(selectedCity));
     if (!selectedCity) return;
-
-    setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 2000);
   };
 
   const cities = [
     //North America
-    { value: "newyork", label: "New York, US" },
-    { value: "toronto", label: "Toronto, Canada" },
-    { value: "mexico", label: "Mexico City, Mexico" },
-    { value: "cuba", label: "Havana, Cuba" },
-    { value: "dominicanrepublic", label: "Dominican Republic" },
-    { value: "kingston", label: "Kingston, Jamaica" },
-    { value: "guatemala", label: "Guatemala City, Guatemala" },
-    { value: "costarica", label: "San José, Costa Rica" },
-    { value: "barcelona", label: "Barcelona, Spain" },
+    { value: "New York,US", label: "New York, US" },
+    { value: "Toronto,CA", label: "Toronto, Canada" },
+    { value: "Mexico City,MX", label: "Mexico City, Mexico" },
+    { value: "Havana,CU", label: "Havana, Cuba" },
+    { value: "Santo Domingo,DO", label: "Dominican Republic" },
+    { value: "Kingston,JM", label: "Kingston, Jamaica" },
+    { value: "Guatemala City,GT", label: "Guatemala City, Guatemala" },
+    { value: "San José,CR", label: "San José, Costa Rica" },
+    { value: "Barcelona,ES", label: "Barcelona, Spain" },
     //South America
-    { value: "saopaulo", label: "São Paulo, Brazil" },
-    { value: "buenosaires", label: "Buenos Aires, Argentina" },
-    { value: "santiago", label: "Santiago, Chile" },
-    { value: "bogota", label: "Bogotá, Colombia" },
-    { value: "lima", label: "Lima, Peru" },
-    { value: "quito", label: "Quito, Ecuador" },
-    { value: "caracas", label: "Caracas, Venezuela" },
-    { value: "montevideo", label: "Montevideo, Uruguay" },
-    { value: "asuncion", label: "Asunción, Paraguay" },
-    { value: "la paz", label: "La Paz, Bolivia" },
+    { value: "São Paulo,BR", label: "São Paulo, Brazil" },
+    { value: "Buenos Aires,AR", label: "Buenos Aires, Argentina" },
+    { value: "Santiago,CL", label: "Santiago, Chile" },
+    { value: "Bogotá,CO", label: "Bogotá, Colombia" },
+    { value: "Lima,PE", label: "Lima, Peru" },
+    { value: "Quito,EC", label: "Quito, Ecuador" },
+    { value: "Caracas,VE", label: "Caracas, Venezuela" },
+    { value: "Montevideo,UY", label: "Montevideo, Uruguay" },
+    { value: "Asunción,PY", label: "Asunción, Paraguay" },
+    { value: "La Paz,BO", label: "La Paz, Bolivia" },
     //Europe
-    { value: "london", label: "London, UK" },
-    { value: "paris", label: "Paris, France" },
-    { value: "berlin", label: "Berlin, Germany" },
-    { value: "rome", label: "Rome, Italy" },
-    { value: "madrid", label: "Madrid, Spain" },
-    { value: "amsterdam", label: "Amsterdam, Netherlands" },
-    { value: "brussels", label: "Brussels, Belgium" },
-    { value: "zurich", label: "Zurich, Switzerland" },
-    { value: "vienna", label: "Vienna, Austria" },
-    { value: "stockholm", label: "Stockholm, Sweden" },
-    { value: "oslo", label: "Oslo, Norway" },
-    { value: "copenhagen", label: "Copenhagen, Denmark" },
-    { value: "helsinki", label: "Helsinki, Finland" },
-    { value: "dublin", label: "Dublin, Ireland" },
-    { value: "lisbon", label: "Lisbon, Portugal" },
-    { value: "warsaw", label: "Warsaw, Poland" },
-    { value: "athens", label: "Athens, Greece" },
-    { value: "prague", label: "Prague, Czech Republic" },
-    { value: "budapest", label: "Budapest, Hungary" },
-    { value: "romania", label: "Bucharest, Romania" },
+    { value: "London,GB", label: "London, UK" },
+    { value: "Paris,FR", label: "Paris, France" },
+    { value: "Berlin,DE", label: "Berlin, Germany" },
+    { value: "Rome,IT", label: "Rome, Italy" },
+    { value: "Madrid,ES", label: "Madrid, Spain" },
+    { value: "Amsterdam,NL", label: "Amsterdam, Netherlands" },
+    { value: "Brussels,BE", label: "Brussels, Belgium" },
+    { value: "Zurich,CH", label: "Zurich, Switzerland" },
+    { value: "Vienna,AT", label: "Vienna, Austria" },
+    { value: "Stockholm,SE", label: "Stockholm, Sweden" },
+    { value: "Oslo,NO", label: "Oslo, Norway" },
+    { value: "Copenhagen,DK", label: "Copenhagen, Denmark" },
+    { value: "Helsinki,FI", label: "Helsinki, Finland" },
+    { value: "Dublin,IE", label: "Dublin, Ireland" },
+    { value: "Lisbon,PT", label: "Lisbon, Portugal" },
+    { value: "Warsaw,PL", label: "Warsaw, Poland" },
+    { value: "Athens,GR", label: "Athens, Greece" },
+    { value: "Prague,CZ", label: "Prague, Czech Republic" },
+    { value: "Budapest,HU", label: "Budapest, Hungary" },
+    { value: "Bucharest,RO", label: "Bucharest, Romania" },
 
     //Asia
-    { value: "beijing", label: "Beijing, China" },
-    { value: "tokyo", label: "Tokyo, Japan" },
-    { value: "seoul", label: "Seoul, South Korea" },
-    { value: "newdelhi", label: "New Delhi, India" },
-    { value: "jakarta", label: "Jakarta, Indonesia" },
-    { value: "kualalumpur", label: "Kuala Lumpur, Malaysia" },
-    { value: "singapore", label: "Singapore" },
-    { value: "bangkok", label: "Bangkok, Thailand" },
-    { value: "hanoi", label: "Hanoi, Vietnam" },
-    { value: " karachi", label: "Karachi, Pakistan" },
-    { value: "dhaka", label: "Dhaka, Bangladesh" },
-    { value: "riyadh", label: "Riyadh, Saudi Arabia" },
-    { value: "dubai", label: "Dubai, UAE" },
-    { value: "telaviv", label: "Tel Aviv, Israel" },
-    { value: "istanbul", label: "Istanbul, Turkey" },
-    { value: "moscow", label: "Moscow, Russia" },
-    { value: "tehran", label: "Tehran, Iran" },
-    { value: "baghdad", label: "Baghdad, Iraq" },
-    { value: "kathmandu", label: "Kathmandu, Nepal" },
-    { value: "colombo", label: "Colombo, Sri Lanka" },
+    { value: "Beijing,CN", label: "Beijing, China" },
+    { value: "Tokyo,JP", label: "Tokyo, Japan" },
+    { value: "Seoul,KR", label: "Seoul, South Korea" },
+    { value: "New Delhi,IN", label: "New Delhi, India" },
+    { value: "Jakarta,ID", label: "Jakarta, Indonesia" },
+    { value: "Kuala Lumpur,MY", label: "Kuala Lumpur, Malaysia" },
+    { value: "Singapore,SG", label: "Singapore" },
+    { value: "Bangkok,TH", label: "Bangkok, Thailand" },
+    { value: "Hanoi,VN", label: "Hanoi, Vietnam" },
+    { value: "Karachi,PK", label: "Karachi, Pakistan" },
+    { value: "Dhaka,BD", label: "Dhaka, Bangladesh" },
+    { value: "Riyadh,SA", label: "Riyadh, Saudi Arabia" },
+    { value: "Dubai,AE", label: "Dubai, UAE" },
+    { value: "Tel Aviv,IL", label: "Tel Aviv, Israel" },
+    { value: "Istanbul,TR", label: "Istanbul, Turkey" },
+    { value: "Moscow,RU", label: "Moscow, Russia" },
+    { value: "Tehran,IR", label: "Tehran, Iran" },
+    { value: "Baghdad,IQ", label: "Baghdad, Iraq" },
+    { value: "Kathmandu,NP", label: "Kathmandu, Nepal" },
+    { value: "Colombo,LK", label: "Colombo, Sri Lanka" },
 
     //Africa
-    { value: "lagos", label: "Lagos, Nigeria" },
-    { value: "cairo", label: "Cairo, Egypt" },
-    { value: "nairobi", label: "Nairobi, Kenya" },
-    { value: "johannesburg", label: "Johannesburg, South Africa" },
-    { value: "accra", label: "Accra, Ghana" },
-    { value: "casablanca", label: "Casablanca, Morocco" },
-    { value: "algiers", label: "Algiers, Algeria" },
-    { value: "tunis", label: "Tunis, Tunisia" },
-    { value: "khartoum", label: "Khartoum, Sudan" },
-    { value: "addisababa", label: "Addis Ababa, Ethiopia" },
-    { value: "dakar", label: "Dakar, Senegal" },
-    { value: "abidjan", label: "Abidjan, Ivory Coast" },
-    { value: "douala", label: "Douala, Cameroon" },
-    { value: "kampala", label: "Kampala, Uganda" },
-    { value: "lusaka", label: "Lusaka, Zambia" },
-    { value: "harare", label: "Harare, Zimbabwe" },
-    { value: "maputo", label: "Maputo, Mozambique" },
-    { value: "antananarivo", label: "Antananarivo, Madagascar" },
+    { value: "Lagos,NG", label: "Lagos, Nigeria" },
+    { value: "Cairo,EG", label: "Cairo, Egypt" },
+    { value: "Nairobi,KE", label: "Nairobi, Kenya" },
+    { value: "Johannesburg,ZA", label: "Johannesburg, South Africa" },
+    { value: "Accra,GH", label: "Accra, Ghana" },
+    { value: "Casablanca,MA", label: "Casablanca, Morocco" },
+    { value: "Algiers,DZ", label: "Algiers, Algeria" },
+    { value: "Tunis,TN", label: "Tunis, Tunisia" },
+    { value: "Khartoum,SD", label: "Khartoum, Sudan" },
+    { value: "Addis Ababa,ET", label: "Addis Ababa, Ethiopia" },
+    { value: "Dakar,SN", label: "Dakar, Senegal" },
+    { value: "Abidjan,CI", label: "Abidjan, Ivory Coast" },
+    { value: "Douala,CM", label: "Douala, Cameroon" },
+    { value: "Kampala,UG", label: "Kampala, Uganda" },
+    { value: "Lusaka,ZM", label: "Lusaka, Zambia" },
+    { value: "Harare,ZW", label: "Harare, Zimbabwe" },
+    { value: "Maputo,MZ", label: "Maputo, Mozambique" },
+    { value: "Antananarivo,MG", label: "Antananarivo, Madagascar" },
 
     //Oceania
-    { value: "sydney", label: "Sydney, Australia" },
-    { value: "melbourne", label: "Melbourne, Australia" },
-    { value: "auckland", label: "Auckland, New Zealand" },
-    { value: "suva", label: "Suva, Fiji" },
-    { value: "portmoresby", label: "Port Moresby, Papua New Guinea" },
-    { value: "honolulu", label: "Honolulu, Hawaii" },
-    { value: "samoa", label: "Apia, Samoa" },
+    { value: "Sydney,AU", label: "Sydney, Australia" },
+    { value: "Melbourne,AU", label: "Melbourne, Australia" },
+    { value: "Auckland,NZ", label: "Auckland, New Zealand" },
+    { value: "Suva,FJ", label: "Suva, Fiji" },
+    { value: "Port Moresby,PG", label: "Port Moresby, Papua New Guinea" },
+    { value: "Honolulu,US", label: "Honolulu, Hawaii" },
+    { value: "Apia,WS", label: "Apia, Samoa" },
   ];
 
   return (
     <div className="dashboard-bg min-h-screen relative w-full">
       <Navbar />
-
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-20 w-32 h-32 bg-blue-500/10 rounded-full blur-xl animate-pulse"></div>
         <div className="absolute top-60 right-32 w-24 h-24 bg-purple-500/10 rounded-full blur-xl animate-pulse delay-700"></div>
@@ -147,7 +176,7 @@ const Explore = () => {
           <div className="relative">
             <select
               value={selectedCity}
-              onChange={(e) => setSelectedCity(e.target.value)}
+              onChange={(e) => dispatch(setSelectedCity(e.target.value))}
               className="w-full p-4 text-lg bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400/50 transition-all duration-300 appearance-none cursor-pointer hover:bg-white/15"
               required
             >
@@ -249,7 +278,7 @@ const Explore = () => {
             {cities.slice(0, 5).map((city) => (
               <button
                 key={city.value}
-                onClick={() => setSelectedCity(city.value)}
+                onClick={() => dispatch(setSelectedCity(city.value))}
                 className="px-4 py-2 text-sm bg-white/5 backdrop-blur-md border border-white/10 rounded-full text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300 hover:scale-105"
               >
                 {city.label}
@@ -258,6 +287,255 @@ const Explore = () => {
           </div>
         </motion.div>
       </section>
+      {!cityData.loading && !cityData.error && cityData.name && (
+        <motion.section
+          ref={weatherSectionRef}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative w-full max-w-6xl mx-auto px-4 py-16 text-white"
+        >
+          {/* City Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+              {cityData.name}
+            </h2>
+            <p className="text-xl text-gray-300 flex items-center justify-center gap-2">
+              <span className="text-2xl">🌍</span>
+              {cityData.sys?.country} •{" "}
+              {new Date(cityData.dt * 1000).toLocaleDateString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </p>
+          </motion.div>
+
+          {/* Main Weather Card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="relative backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 rounded-3xl border border-white/20 shadow-2xl p-8 mb-8"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Temperature & Main Info */}
+              <div className="text-center lg:text-left">
+                <div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
+                  <div className="text-8xl">
+                    {cityData.weather?.[0]?.main === "Clear" && "☀️"}
+                    {cityData.weather?.[0]?.main === "Clouds" && "☁️"}
+                    {cityData.weather?.[0]?.main === "Rain" && "🌧️"}
+                    {cityData.weather?.[0]?.main === "Thunderstorm" && "⛈️"}
+                    {cityData.weather?.[0]?.main === "Snow" && "🌨️"}
+                    {cityData.weather?.[0]?.main === "Drizzle" && "🌦️"}
+                    {cityData.weather?.[0]?.main === "Mist" && "🌫️"}
+                    {!cityData.weather?.[0]?.main && "🌤️"}
+                  </div>
+                  <div>
+                    <div className="text-6xl font-bold mb-2">
+                      {Math.round(cityData.main?.temp - 273.15)}°C
+                    </div>
+                    <div className="text-2xl text-gray-300 capitalize">
+                      {cityData.weather?.[0]?.description}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-center lg:justify-start gap-6 text-lg text-gray-300">
+                  <span className="flex items-center gap-2">
+                    <span className="text-xl">🌡️</span>
+                    Feels like {Math.round(cityData.main?.feels_like - 273.15)}
+                    °C
+                  </span>
+                </div>
+              </div>
+
+              {/* Weather Details Grid */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="backdrop-blur-md bg-white/5 rounded-2xl p-4 border border-white/10">
+                  <div className="text-3xl mb-2">🌡️</div>
+                  <div className="text-sm text-gray-400">Min / Max</div>
+                  <div className="text-xl font-semibold">
+                    {Math.round(cityData.main?.temp_min - 273.15)}° /{" "}
+                    {Math.round(cityData.main?.temp_max - 273.15)}°
+                  </div>
+                </div>
+
+                <div className="backdrop-blur-md bg-white/5 rounded-2xl p-4 border border-white/10">
+                  <div className="text-3xl mb-2">💧</div>
+                  <div className="text-sm text-gray-400">Humidity</div>
+                  <div className="text-xl font-semibold">
+                    {cityData.main?.humidity}%
+                  </div>
+                </div>
+
+                <div className="backdrop-blur-md bg-white/5 rounded-2xl p-4 border border-white/10">
+                  <div className="text-3xl mb-2">🌬️</div>
+                  <div className="text-sm text-gray-400">Wind Speed</div>
+                  <div className="text-xl font-semibold">
+                    {cityData.wind?.speed} m/s
+                  </div>
+                </div>
+
+                <div className="backdrop-blur-md bg-white/5 rounded-2xl p-4 border border-white/10">
+                  <div className="text-3xl mb-2">🧭</div>
+                  <div className="text-sm text-gray-400">Wind Direction</div>
+                  <div className="text-xl font-semibold">
+                    {cityData.wind?.deg}°
+                  </div>
+                </div>
+
+                <div className="backdrop-blur-md bg-white/5 rounded-2xl p-4 border border-white/10">
+                  <div className="text-3xl mb-2">📊</div>
+                  <div className="text-sm text-gray-400">Pressure</div>
+                  <div className="text-xl font-semibold">
+                    {cityData.main?.pressure} hPa
+                  </div>
+                </div>
+
+                <div className="backdrop-blur-md bg-white/5 rounded-2xl p-4 border border-white/10">
+                  <div className="text-3xl mb-2">👁️</div>
+                  <div className="text-sm text-gray-400">Visibility</div>
+                  <div className="text-xl font-semibold">
+                    {(cityData.visibility / 1000).toFixed(1)} km
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="backdrop-blur-xl bg-gradient-to-br from-orange-500/20 to-yellow-500/10 rounded-2xl border border-orange-300/20 p-6"
+            >
+              <div className="text-center">
+                <div className="text-4xl mb-4">🌅</div>
+                <h3 className="text-xl font-bold mb-4 text-orange-200">
+                  Sun Times
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Sunrise</span>
+                    <span className="font-semibold text-orange-200">
+                      {new Date(
+                        cityData.sys?.sunrise * 1000
+                      ).toLocaleTimeString("en-US", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Sunset</span>
+                    <span className="font-semibold text-orange-200">
+                      {new Date(cityData.sys?.sunset * 1000).toLocaleTimeString(
+                        "en-US",
+                        {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Cloudiness Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+              className="backdrop-blur-xl bg-gradient-to-br from-gray-500/20 to-slate-500/10 rounded-2xl border border-gray-300/20 p-6"
+            >
+              <div className="text-center">
+                <div className="text-4xl mb-4">☁️</div>
+                <h3 className="text-xl font-bold mb-4 text-gray-200">
+                  Cloud Cover
+                </h3>
+                <div className="relative w-24 h-24 mx-auto mb-4">
+                  <div className="absolute inset-0 rounded-full border-4 border-gray-600"></div>
+                  <div
+                    className="absolute inset-0 rounded-full border-4 border-blue-400 transition-all duration-1000"
+                    style={{
+                      clipPath: `inset(0 ${
+                        100 - (cityData.clouds?.all || 0)
+                      }% 0 0)`,
+                    }}
+                  ></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-xl font-bold">
+                      {cityData.clouds?.all || 0}%
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Coordinates Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="backdrop-blur-xl bg-gradient-to-br from-green-500/20 to-emerald-500/10 rounded-2xl border border-green-300/20 p-6"
+            >
+              <div className="text-center">
+                <div className="text-4xl mb-4">🌐</div>
+                <h3 className="text-xl font-bold mb-4 text-green-200">
+                  Location
+                </h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">Latitude</span>
+                    <span className="font-mono text-green-200">
+                      {cityData.coord?.lat.toFixed(4)}°
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">Longitude</span>
+                    <span className="font-mono text-green-200">
+                      {cityData.coord?.lon.toFixed(4)}°
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">Timezone</span>
+                    <span className="font-mono text-green-200">
+                      {cityData.timezone
+                        ? `UTC${cityData.timezone >= 0 ? "+" : ""}${
+                            cityData.timezone / 3600
+                          }`
+                        : "N/A"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Data Source Info */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="text-center mt-8 text-gray-400 text-sm"
+          >
+            <p>
+              Data provided by OpenWeather • Last updated:{" "}
+              {new Date(cityData.dt * 1000).toLocaleString()}
+            </p>
+          </motion.div>
+        </motion.section>
+      )}
     </div>
   );
 };

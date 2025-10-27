@@ -6,6 +6,7 @@ import { fivedayForecast } from "./slices/fivedayForecastSlice";
 import { airQualityReducer } from "./slices/airQualitySlice";
 import { moonPhaseReducer } from "./slices/moonPhaseSlice";
 import { marineWeatherReducer } from "./slices/marineWeatherSlice";
+import { exploreReducer, exploreDataReducer } from "./slices/exploreSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,8 @@ export const store = configureStore({
     airQuality: airQualityReducer,
     moonPhase: moonPhaseReducer,
     marineWeather: marineWeatherReducer,
+    explore: exploreReducer,
+    exploreData: exploreDataReducer,
   },
 });
 
