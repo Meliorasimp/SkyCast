@@ -50,22 +50,37 @@ const Landingpage = () => {
           </p>
         </div>
         <div className="w-5/6 flex flex-wrap items-center justify-between h-4/5 gap-y-8">
-          {WeatherInfoData.map((info, index) => (
-            <motion.div
-              key={index}
-              className="w-2/7 h-1/2 rounded-2xl glass-morphism-animated flex flex-col gap-y-4 justify-center items-center hover:scale-105 transition-transform duration-300 relative z-20"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true, amount: 0.5 }}
-            >
-              <div className="flex justify-between flex-col items-center gap-y-4">
-                <img src={info.icon} alt={info.alticon} className="w-16 h-16" />
-                <h1 className="text-xl font-bold">{info.name}</h1>
-              </div>
-              <p className="text-center w-5/6">{info.description}</p>
-            </motion.div>
-          ))}
+          {WeatherInfoData.map((info, index) => {
+            console.log("Rendering card:", info.name, "Icon path:", info.icon);
+            return (
+              <motion.div
+                key={index}
+                className="w-2/7 h-1/2 rounded-2xl glass-morphism-animated flex flex-col gap-y-4 justify-center items-center hover:scale-105 transition-transform duration-300 relative z-20 p-6"
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true, amount: 0.5 }}
+              >
+                <div className="flex justify-between flex-col items-center gap-y-4">
+                  <img
+                    src={info.icon}
+                    alt={info.alticon}
+                    className="w-16 h-16"
+                    onError={(e) => {
+                      console.error("Image failed to load:", info.icon);
+                      e.currentTarget.style.backgroundColor = "#ff0000";
+                    }}
+                  />
+                  <h1 className="text-xl font-bold landing-page-text">
+                    {info.name}
+                  </h1>
+                </div>
+                <p className="text-center w-5/6 landing-page-text">
+                  {info.description}
+                </p>
+              </motion.div>
+            );
+          })}
         </div>
       </section>
       <section className="w-full py-16 relative z-10 flex flex-col items-center justify-center gap-y-6">
