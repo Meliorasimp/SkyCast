@@ -55,27 +55,31 @@ const Landingpage = () => {
             return (
               <motion.div
                 key={index}
-                className="w-2/7 h-1/2 rounded-2xl glass-morphism-animated flex flex-col gap-y-4 justify-center items-center hover:scale-105 transition-transform duration-300 relative z-20 p-6"
+                className="w-2/7 h-1/2 rounded-2xl glass-morphism-animated flex flex-col gap-y-4 justify-center items-center hover:scale-105 transition-transform duration-300 relative z-20 p-6 text-white"
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true, amount: 0.5 }}
+                style={{
+                  minHeight: "200px",
+                  border: "2px solid rgba(255,255,255,0.2)",
+                }}
               >
                 <div className="flex justify-between flex-col items-center gap-y-4">
                   <img
                     src={info.icon}
                     alt={info.alticon}
-                    className="w-16 h-16"
+                    className="w-16 h-16 object-contain"
                     onError={(e) => {
                       console.error("Image failed to load:", info.icon);
                       e.currentTarget.style.backgroundColor = "#ff0000";
                     }}
                   />
-                  <h1 className="text-xl font-bold landing-page-text">
+                  <h1 className="text-xl font-bold text-white text-center">
                     {info.name}
                   </h1>
                 </div>
-                <p className="text-center w-5/6 landing-page-text">
+                <p className="text-center w-5/6 text-white text-sm opacity-90">
                   {info.description}
                 </p>
               </motion.div>
