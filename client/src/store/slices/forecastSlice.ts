@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { type ForecastData } from "../../types/forecast";
 import axios from "axios";
+import { apiConfig } from "../../config/api";
 
 const initialForecastDataState: ForecastData = {
   coord: {
@@ -77,7 +78,7 @@ export const fetchForecast = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.post("http://localhost:3000/api/forecast", {
+      const response = await axios.post(apiConfig.endpoints.forecast, {
         lat,
         lon,
       });

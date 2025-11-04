@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  # SkyCast Server API - Development
+  skycast-server-dev:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      target: development
+    container_name: skycast-api-dev
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    env_file:
+      - ./server/.env
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    networks:
+      - skycast-dev-network
+    labels:
+      - "com.skycast.service=api-dev"
+      - "com.skycast.environment=development"
+
+  # SkyCast Client Frontend - Development
+  skycast-client-dev:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      target: development
+    container_name: skycast-frontend-dev
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    networks:
+      - skycast-dev-network
+    labels:
+      - "com.skycast.service=frontend-dev"
+      - "com.skycast.environment=development"
+
+networks:
+  skycast-dev-network:
+    driver: bridge
+    name: skycast-dev-network

@@ -34,10 +34,6 @@ const Landingpagenavbar = () => {
           Contact
         </Link>
       </div>
-
-      <h1 className="landing-page-navbar-text text-xl cursor-pointer justify-self-end">
-        Sign-in
-      </h1>
     </div>
   );
 };

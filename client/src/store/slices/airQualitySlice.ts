@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { AirQualityData } from "../../types/airQuality";
+import { apiConfig } from "../../config/api";
 
 const initialAirQualityDataState: AirQualityData = {
   coord: {
@@ -53,7 +54,7 @@ const airQualitySlice = createSlice({
 export const fetchAirQualityData = createAsyncThunk(
   "airQuality/fetchAirQualityData",
   async ({ lat, lon }: { lat: number; lon: number }) => {
-    const response = await axios.post("http://localhost:3000/api/airquality", {
+    const response = await axios.post(apiConfig.endpoints.airquality, {
       lat,
       lon,
     });

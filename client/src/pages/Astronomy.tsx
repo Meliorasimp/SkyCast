@@ -10,6 +10,7 @@ const Astronomy = () => {
   const forecastData = useSelector((state: RootState) => state.forecast);
   const dispatch = useDispatch<AppDispatch>();
   const moonPhaseData = useSelector((state: RootState) => state.moonPhase);
+  console.log("Moon Phase Data:", moonPhaseData);
 
   useEffect(() => {
     if (forecastData.coord) {
@@ -130,7 +131,7 @@ const Astronomy = () => {
                 <div className="flex justify-between">
                   <span className="text-gray-300">Solar Noon:</span>
                   <span className="text-white font-medium">
-                    {formatTime(moonPhaseData.sun?.solar_noon)}
+                    {moonPhaseData.sun?.solar_noon}
                   </span>
                 </div>
                 <div className="flex justify-between">

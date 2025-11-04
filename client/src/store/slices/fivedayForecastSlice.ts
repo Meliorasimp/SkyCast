@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { type FiveDayForecastData } from "../../types/fivedayForecast";
 import axios from "axios";
+import { apiConfig } from "../../config/api";
 
 const initialFiveDayForecastDataState: FiveDayForecastData = {
   cod: "",
@@ -89,10 +90,10 @@ export const fetchFiveDayForecast = createAsyncThunk(
   "fivedayForecast/fetchFiveDayForecast",
   async ({ lat, lon }: { lat: number; lon: number }) => {
     try {
-      const response = await axios.post(
-        `http://localhost:3000/api/fivedayforecast`,
-        { lat, lon }
-      );
+      const response = await axios.post(apiConfig.endpoints.fivedayforecast, {
+        lat,
+        lon,
+      });
       return response.data as FiveDayForecastData;
     } catch (error) {
       console.error("Failed to fetch five day forecast data", error);

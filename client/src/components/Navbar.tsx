@@ -29,7 +29,12 @@ const Navbar = () => {
         ))}
       </div>
       <div className="flex justify-self-end cursor-pointer text-sm sm:text-base md:text-xl transition-all duration-300 landing-page-navbar-text px-3 py-2 rounded-lg hover:bg-white/10 hover:scale-105">
-        ⚙️ Settings
+        <Link
+          className="text-xl landing-page-navbar-text leading-none"
+          to="/explore"
+        >
+          🗺️Explore
+        </Link>
       </div>
     </div>
   );

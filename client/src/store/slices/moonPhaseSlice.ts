@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { type MoonPhaseData } from "../../types/moonPhase";
 import axios from "axios";
+import { apiConfig } from "../../config/api";
 
 const initialMoonPhaseDataState: MoonPhaseData = {
   timestamp: 0,
@@ -174,7 +175,7 @@ export const fetchMoonPhaseData = createAsyncThunk(
   "moonPhase/fetchMoonPhaseData",
   async ({ lat, lon }: { lat: number; lon: number }) => {
     try {
-      const response = await axios.post("http://localhost:3000/api/moonphase", {
+      const response = await axios.post(apiConfig.endpoints.moonphase, {
         lat: lat,
         lon: lon,
       });

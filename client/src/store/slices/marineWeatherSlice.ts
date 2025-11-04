@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { type MarineWeather } from "../../types/marineWeather";
 import axios from "axios";
+import { apiConfig } from "../../config/api";
 
 const initialWeatherDataState: MarineWeather = {
   location: {
@@ -153,13 +154,10 @@ export const fetchMarineWeatherData = createAsyncThunk(
   "marineWeather/fetchMarineWeatherData",
   async ({ lat, lon }: { lat: number; lon: number }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/marineweather",
-        {
-          lat: lat,
-          lon: lon,
-        }
-      );
+      const response = await axios.post(apiConfig.endpoints.marineweather, {
+        lat: lat,
+        lon: lon,
+      });
       return response.data as MarineWeather;
     } catch (error) {
       console.error("Frontend: Error fetching marine weather data:", error);

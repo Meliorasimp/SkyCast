@@ -15,8 +15,4 @@ export const navbarData = [
     name: "🌊Marine",
     destination: "/marineweather",
   },
-  {
-    name: "🗺️Explore",
-    destination: "/explore",
-  },
 ];

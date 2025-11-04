@@ -11,18 +11,49 @@ import {
   setMessage,
 } from "../store/slices/contactSlice";
 import type { RootState } from "../store";
+import emailjs from "emailjs-com";
 
 const Contact = () => {
   const dispatch = useDispatch();
-  const contactName = useSelector((state: RootState) => state.contact.name);
-  const contactEmail = useSelector((state: RootState) => state.contact.email);
-  const contactSubject = useSelector(
-    (state: RootState) => state.contact.subject
-  );
-  const contactMessage = useSelector(
-    (state: RootState) => state.contact.message
-  );
-  console.log(contactSubject);
+  const name = useSelector((state: RootState) => state.contact.name);
+  const email = useSelector((state: RootState) => state.contact.email);
+  const title = useSelector((state: RootState) => state.contact.subject);
+  const message = useSelector((state: RootState) => state.contact.message);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        "service_9yhv321",
+        "template_4dbr41h",
+        e.target as HTMLFormElement,
+        "V8w7Yy2x95kzWCtAz"
+      )
+      .then((result) => {
+        dispatch(setName(""));
+        dispatch(setEmail(""));
+        dispatch(setSubject(""));
+        dispatch(setMessage(""));
+        console.log("✨ Form fields cleared successfully!", result);
+      })
+      .catch((error) => {
+        console.error("❌ Error sending email:", error);
+        console.error("🔍 Error details:", {
+          message: error.message,
+          status: error.status,
+          text: error.text,
+          stack: error.stack,
+        });
+
+        console.error("📝 Form data that failed to send:", {
+          name,
+          email,
+          subject: title,
+          message,
+        });
+      });
+  };
 
   return (
     <div className="landing-page-gradient-bg min-h-screen relative">
@@ -51,12 +82,12 @@ const Contact = () => {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              className="glass-morphism-animated rounded-3xl p-8 relative z-30"
+              className="glass-morphism-animated rounded-3xl p-8 relative z-30 pointer-events-auto"
             >
               <h2 className="text-2xl landing-page-text-gradient-heading font-bold mb-6">
                 Send Me a Message
               </h2>
-              <form className="space-y-6">
+              <form className="space-y-6 relative z-40" onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label className="block landing-page-text text-sm font-medium mb-2">
@@ -65,7 +96,7 @@ const Contact = () => {
                     <input
                       type="text"
                       name="name"
-                      value={contactName}
+                      value={name}
                       onChange={(e) => dispatch(setName(e.target.value))}
                       required
                       className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 landing-page-text placeholder-white/50 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all relative z-40"
@@ -79,7 +110,7 @@ const Contact = () => {
                     <input
                       type="email"
                       name="email"
-                      value={contactEmail}
+                      value={email}
                       onChange={(e) => dispatch(setEmail(e.target.value))}
                       required
                       className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 landing-page-text placeholder-white/50 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all relative z-40"
@@ -95,7 +126,7 @@ const Contact = () => {
                     <input
                       type="text"
                       name="subject"
-                      value={contactSubject}
+                      value={title}
                       onChange={(e) => dispatch(setSubject(e.target.value))}
                       required
                       className="w-2/3 px-4 py-3 rounded-xl bg-white/10 border border-white/20 landing-page-text placeholder-white/50 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all relative z-40"
@@ -160,7 +191,7 @@ const Contact = () => {
                   </label>
                   <textarea
                     name="message"
-                    value={contactMessage}
+                    value={message}
                     onChange={(e) => dispatch(setMessage(e.target.value))}
                     required
                     rows={6}
@@ -173,7 +204,11 @@ const Contact = () => {
                   type="submit"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-full py-4 rounded-xl button-primary font-semibold text-lg transition-all duration-300 hover:shadow-lg"
+                  onClick={(e) => {
+                    console.log("Button clicked!", e);
+                  }}
+                  className="w-full py-4 rounded-xl button-primary font-semibold text-lg transition-all duration-300 hover:shadow-lg relative z-50 pointer-events-auto cursor-pointer border-none outline-none"
+                  style={{ pointerEvents: "auto", zIndex: 9999 }}
                 >
                   Send Message 🚀
                 </motion.button>

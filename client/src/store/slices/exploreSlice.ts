@@ -5,6 +5,7 @@ import {
   createSlice,
   type PayloadAction,
 } from "@reduxjs/toolkit";
+import { apiConfig } from "../../config/api";
 
 const initialCityState: CityType = {
   selectedCity: "",
@@ -94,10 +95,9 @@ export const fetchCityData = createAsyncThunk(
   "exploreData/fetchCityData",
   async (city: string) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/explorecity",
-        { city }
-      );
+      const response = await axios.post(apiConfig.endpoints.explorecity, {
+        city,
+      });
       return response.data;
     } catch (error) {
       console.error("Error fetching city data:", error);

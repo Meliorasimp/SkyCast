@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: skycast-api
+    runtime: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm run serve
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: OPENWEATHERMAP_API_KEY
+        fromDatabase: true
+      - key: RAPIDAPI_KEY
+        fromDatabase: true
+      - key: WEATHERAPI_KEY
+        fromDatabase: true
+    headers:
+      - path: /*
+        name: X-Robots-Tag
+        value: noindex
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: /api/*
